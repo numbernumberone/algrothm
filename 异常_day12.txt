@@ -1,0 +1,123 @@
+异常  Exception s
+	
+	异常是可以避免
+		数组下标越界
+		类型强制转换
+	
+
+知识点：一. 异常的基本概念
+	    代码的意想不到的问题
+
+        二. try...catch语句
+
+            在Java语言中，用try...catch语句来捕获处理异常。格式如下：
+
+            try {
+                可能会出现异常情况的代码；
+            } catch(异常类型 异常参数) {
+                异常处理代码
+            } catch(异常类型 异常参数) {
+                异常处理代码
+            }final{
+		//一定会执行的代码
+	    }
+
+            1. 如果try代码块中没有抛出异常，try代码块中语句会顺序执行完，catch代码块内容不会被执行；
+            2. 如果try代码块中抛出catch代码块所声明的异常类型对象，程序跳过try代码块中接下来代码，直接执行
+               catch代码块中对应内容;
+               a. 可以存在多个catch代码块，究竟执行哪个，看抛出的异常对象是否是catch代码块中异常类型；
+               b. 异常只能被一个异常处理器所处理, 不能声明两个异常处理器处理相同类型的异常；
+               c. 多个catch语句块所声明的异常类型不能越来越小；
+               d. 不能捕获一个在try语句块中没有抛出的异常； 
+            3. 如果try代码块中抛出catch代码块未声明的异常类型对象，异常被抛给调用者；哪个调用了这段语句块
+               哪个负责处理这个异常；
+            4. 执行final中代码块
+		
+ 
+        三. 异常层级关系
+
+            所有异常类的祖先类为java.lang.Throwable类。它有两个直接的子类：
+
+			   |---Error	
+		Throwable--|		   |---RuntimeException:
+			   |---Exception---|
+					   |---Checked Exception:检查语法;
+
+	
+            1. Error类：表示仅靠程序本身无法恢复的严重错误，比如内存空间不足，或者Java虚拟机的方法调用栈溢出。在大多数情
+                        况下，遇到这样的错误时，建议让程序终止。
+            2. Exception类：表示程序本身可以处理的异常。Exception还可以分为两种：运行时异常和受检查异常。
+                
+               a. 运行时异常
+
+                  1) 基本概念
+
+                  RuntimeException类及其子类都被称为运行时异常，这种异常的特点是Java编译器不会检查它，也就是说，当程序中
+                  可能出现这类异常时，即使没有用try...catch语句捕获它，也没有用throws子句声明抛出它，还是会编译通过。例
+                  如divide()方法的参数b为0, 执行a/b操作时会出现ArithmeticException异常，它属于运行时异常，Java编译器不会
+                  检查它。
+
+                  public int divide(int a, int b) {
+                         return a/b;      //当参数b为0, 抛出ArithmeticException
+                  }
+
+                  2) 深入解析
+
+                  运行时异常表示无法让程序恢复运行的异常，导致这种异常的原因通常是由于执行了错误操作。一旦出现了错误操作，
+                  建议终止程序，因此Java编译器不检查这种异常。
+
+                  运行时异常应该尽量避免。在程序调试阶段，遇到这种异常时，正确的做法是改进程序的设计和实现方式，修改程序
+                  中的错误，从而避免这种异常。捕获它并且使程序恢复运行并不是明智的办法。
+
+                  3) 对比
+
+                  与Error类相比：
+
+                  相同点：i. Java编译器都不会检查它们；
+                          ii.当程序运行时出现它们， 都会终止程序；
+ 
+                  不同点：i. Error类及其子类表示的错误通常是由Java虚拟机抛出的，在JDK中预定义了一些错误类，比如
+                             OutOfMemoryError和StackOutofMemoryError。
+                             RuntimeException表示程序代码中的错误；
+                          ii.Error类一般不会扩展来创建用户自定义的错误类；
+                             RuntimeException是可以扩展的，用户可以根据特定的问题领域来创建相关的运行时异常类；
+
+               b. 受检查异常(编译异常)
+
+                  除了RuntimeException及其子类以外， 其他的Exception类及其子类都属于受检查异常(Checked Exception)。 这种
+                  异常的特点是Java编译器会检查它，也就是说，当程序中可能出现这类异常时，要么用try...catch语句捕获它，要
+                  么用throws子句声明抛出它，否则编译不会通过。
+
+        四. 一些未检查的异常RuntimeException
+
+            1. java.lang.ArithmeticException  
+               算术异常	如：除0;
+            2. java.lang.NullPointerException  
+               空指针引用 如：没初始化一个References便使用;
+            3. java.lang.ArrayIndexoutofBoundsException  
+               数组越界	如：调用一个有十个元素的Array的第十一个元素的内容;
+            4. java.lang.ClassCastException 
+               强制类型转换异常
+            5. java.lang.NumberFormatException  
+               数据格式异常	如：Integer.parseInt("a");
+            6. java.lang.NegativeArraySizeException 数组长度为负数异常 
+
+        五. 异常声明和处理
+
+            1. 自己主动使用throw语句的时候代码会抛出异常；
+            2. 使用try-catch-finally语句结构处理或
+               在方法声明上声明throws继续抛出；
+
+            异常处理语句的语法规则：
+
+            1. try代码块不能脱离catch代码块或finally代码块而单独存在。try代码块后面至少有一个catch代码块或finally代码块。
+            2. try代码块后面可以有零个或多个catch代码块，还可以有零个或至多一个finally代码块。如果catch代码块和finally代码
+               块并存，finally代码块必须在catch代码块后面。
+            3. try代码块后面可以只跟finally代码块。
+            4. 在try代码块中定义的变量的作用域为try代码块，在catch代码块和finally代码块中不能访问该变量。
+            5. 当try代码块后面有多个catch代码块时，Java虚拟机会把实际抛出的异常对象依次和各个catch代码块声明的异常类型匹配，
+               如果异常对象为某个异常或其子类的实例，就执行这个catch代码块，而不会再执行其他的catch代码块。
+            6. 如果一个方法可能出现受检查异常，要么用try...catch语句捕获，要么用throws子句声明将它抛出。
+            7. throw语句后面不允许紧跟其它语句，因为这些语句永远不会被执行。
+
+       
