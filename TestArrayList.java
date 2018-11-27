@@ -7,6 +7,8 @@ import java.util.ArrayList;
  *
  *
  * 泛型使用的好处，预编译的时候就能发现错误
+ * 好处大大的
+ * 
  */
 class Apple {
     private static long counter;
