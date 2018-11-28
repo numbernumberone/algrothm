@@ -13,7 +13,7 @@ public class testjdbc {
             Class.forName("com.mysql.jdbc.Driver");
 
             //通过驱动管理类获取数据库链接
-            connection =  DriverManager.getConnection("jdbc:mysql://localhost:3306/mybatis?characterEncoding=utf-8", "root", "mysql");
+            connection =  DriverManager.getConnection("jdbc:mysql://47.52.107.247:3306/1605?characterEncoding=utf-8", "root", "wang1118213");
             //定义sql语句 ?表示占位符
             String sql = "select * from user where username = ?";
             //获取预处理statement
